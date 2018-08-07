@@ -43,7 +43,7 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-spec-reporter": "0.0.32",
     "mocha": "^5.2.0",
-    "rollup": "^0.63.4",
+    "rollup": "^0.64.0",
     "rollup-plugin-buble": "^0.19.2",
     "rollup-plugin-commonjs": "^9.1.4",
     "rollup-plugin-json": "^3.0.0",
@@ -52,7 +52,7 @@
     "sinon-chai": "^3.2.0",
     "standard": "^11.0.1",
     "standard-version": "^4.4.0",
-    "webcg-framework": "github:indr/webcg-framework"
+    "webcg-framework": "github:indr/webcg-framework#v1.2.1"
   },
   "standard": {
     "globals": [
