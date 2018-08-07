@@ -4,10 +4,10 @@
   "description": "Adapter for Adobe Animate HTML5 Canvas graphic overlays for WebCG and CasparCG",
   "browser": "dist/webcg-adobe-animate-adapter.umd.js",
   "scripts": {
-    "prebuild": "mkdir -p dist && cp node_modules/webcg-framework/dist/webcg-devtools.umd.js dist/",
+    "prebuild": "./scripts/prebuild.sh",
     "build": "rollup -c",
-    "postbuild": "cp dist/*.umd.js docs/ && cd dist && zip webcg-adobe-animate-adapter-$npm_package_version.zip *.js && cd ..",
-    "predev": "mkdir -p dist && cp node_modules/webcg-framework/dist/webcg-devtools.umd.js dist/",
+    "postbuild": "./scripts/postbuild.sh",
+    "predev": "./scripts/prebuild.sh",
     "dev": "rollup -c -w",
     "test": "standard && karma start karma.conf.js",
     "demo": "node server.js",
