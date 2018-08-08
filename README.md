@@ -12,9 +12,12 @@ webcg-adobe-animate-adapter is an adapter to use Adobe Animate HTML5 Canvas temp
 
 *This section describes how to install and integrate the adapter with your existing Adobe Animate HTML5 Canvas template. If you are looking for full instructions on how to create HTML5 Canvas templates with Adobe Animate, head over to my blog and follow the [tutorial](https://indr.ch/).*
 
- - Visit https://github.com/indr/webcg-adobe-animate-adapter/releases and download the latest version.
- - Extract the archive and place the two JavaScript files in the same folder as your Flash file.
- - In Adobe Animate, open your publish settings
+ - Visit https://github.com/indr/webcg-adobe-animate-adapter/releases and download the latest webcg-adobe-animate-adapter.zip.
+ - Extract the archive and place the two JavaScript files `webcg-adobe-animate-adapter.umd.js` and `webcg-devtools.umd.js` in the `libs` folder of your Adobe Animate project.
+ - Include `webcg-adobe-animate-adapter.umd.js` in your publish template by either
+   - adding `<script src="libs/webcg-adobe-animate-adapter.umd.js"></script>` after the `<title>$TITLE</title>`, or
+   - importing the publish template `Adobe-Animate-Publish-Template.html`, or
+   - importing the publish profile `Adobe-Animate-Publish-Profile.apr`.
 
 ## Contributing
 
