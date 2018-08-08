@@ -18,6 +18,8 @@ webcg-adobe-animate-adapter is an adapter to use Adobe Animate HTML5 Canvas temp
    - adding `<script src="libs/webcg-adobe-animate-adapter.umd.js"></script>` after the `<title>$TITLE</title>`, or
    - importing the publish template `Adobe-Animate-Publish-Template.html`, or
    - importing the publish profile `Adobe-Animate-Publish-Profile.apr`.
+ - Test your movie and append `&debug=true` in your browsers address bar or  
+   publish your movie, open the HTML file and append `?debug=true` to see the DevTools.
 
 ## Contributing
 
