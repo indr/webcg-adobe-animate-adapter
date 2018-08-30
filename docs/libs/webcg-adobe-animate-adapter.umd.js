@@ -14,7 +14,7 @@
 	(function (global, factory) {
 	  factory();
 	}(commonjsGlobal, (function () {
-	  var version = "1.2.1";
+	  var version = "1.2.2";
 
 	  var Parser = (function () {
 	    function Parser () {}
@@ -103,10 +103,10 @@
 	  };
 
 	  WebCG.prototype.update = function update (data) {
-	    var event = this._dispatch('update', {detail: data});
+	    var event = this._dispatch('update', { detail: data });
 	    if (!event.defaultPrevented) {
 	      var parsed = new Parser().parse(data);
-	      this._dispatch('data', {detail: parsed});
+	      this._dispatch('data', { detail: parsed });
 	    }
 	  };
 
@@ -168,7 +168,7 @@
 	})));
 	});
 
-	var version = "1.2.1";
+	var version = "1.2.2";
 
 	var Adapter = (function () {
 	  function Adapter (webcg, movieClip) {
