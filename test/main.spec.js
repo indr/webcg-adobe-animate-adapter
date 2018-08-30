@@ -4,7 +4,7 @@ describe('init', () => {
   let window, AdobeAn
 
   beforeEach(() => {
-    window = {location: {search: ''}}
+    window = { location: { search: '' } }
     window.AdobeAn = AdobeAn = {}
     window.webcg = {}
     AdobeAn.bootstrapCallback = sinon.spy()

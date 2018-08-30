@@ -4,7 +4,7 @@ describe('Adapter', () => {
   let webcg, movieClip, labels
 
   beforeEach(() => {
-    webcg = {addEventListener: sinon.spy()}
+    webcg = { addEventListener: sinon.spy() }
     movieClip = {}
     labels = []
     movieClip.getLabels = () => labels
@@ -57,7 +57,7 @@ describe('Adapter', () => {
   })
 
   it('play should goto and play intro', () => {
-    labels.push({label: 'intro', position: 1})
+    labels.push({ label: 'intro', position: 1 })
     const adapter = new Adapter(webcg, movieClip)
     adapter.play()
     assert(movieClip.gotoAndPlay.calledWith(1))
@@ -70,7 +70,7 @@ describe('Adapter', () => {
   })
 
   it('stop should goto and play outro', () => {
-    labels.push({label: 'outro', position: 2})
+    labels.push({ label: 'outro', position: 2 })
     const adapter = new Adapter(webcg, movieClip)
     adapter.stop()
     assert(movieClip.gotoAndPlay.calledWith(2))
@@ -97,19 +97,19 @@ describe('Adapter', () => {
   })
 
   it('data should update movie clip instances', () => {
-    movieClip.instance.f0 = {text: 'title'}
-    movieClip.instance.f1 = {text: 'subtitle'}
+    movieClip.instance.f0 = { text: 'title' }
+    movieClip.instance.f1 = { text: 'subtitle' }
     const adapter = new Adapter(webcg, movieClip)
-    const event = new window.CustomEvent('data', {detail: JSON.parse('{"f0":"updated title","f1":"updated subtitle"}')})
+    const event = new window.CustomEvent('data', { detail: JSON.parse('{"f0":"updated title","f1":"updated subtitle"}') })
     adapter.data(event)
     expect(movieClip.instance.f0.text).to.equal('updated title')
     expect(movieClip.instance.f1.text).to.equal('updated subtitle')
   })
 
   it('data with invalid data should not change movie clip instances', () => {
-    movieClip.instance.f0 = {text: 'title'}
+    movieClip.instance.f0 = { text: 'title' }
     const adapter = new Adapter(webcg, movieClip)
-    const event = new window.CustomEvent('data', {detail: ''})
+    const event = new window.CustomEvent('data', { detail: '' })
     adapter.data(event)
     expect(movieClip.instance.f0.text).to.equal('title')
   })
