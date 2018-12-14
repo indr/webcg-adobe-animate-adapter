@@ -8,7 +8,6 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Bug Fixes
 
-* **package:** update dependencies ([758e3bf](https://github.com/indr/webcg-adobe-animate-adapter/commit/758e3bf))
 * update webcg-devtools@1.3.1, webcg-framework@2.2.1 ([1d88c46](https://github.com/indr/webcg-adobe-animate-adapter/commit/1d88c46))
 
 
