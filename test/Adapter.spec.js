@@ -100,8 +100,8 @@ describe('Adapter', () => {
     movieClip.instance.f0 = { text: 'title' }
     movieClip.instance.f1 = { text: 'subtitle' }
     const adapter = new Adapter(webcg, movieClip)
-    const event = new window.CustomEvent('data', { detail: JSON.parse('{"f0":"updated title","f1":"updated subtitle"}') })
-    adapter.data(event)
+    const data = JSON.parse('{"f0":"updated title","f1":"updated subtitle"}')
+    adapter.data(data)
     expect(movieClip.instance.f0.text).to.equal('updated title')
     expect(movieClip.instance.f1.text).to.equal('updated subtitle')
   })

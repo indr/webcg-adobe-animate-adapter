@@ -39,10 +39,8 @@ const Adapter = class {
     this.movieClip.play()
   }
 
-  data (event) {
-    if (event.defaultPrevented) return
-    if (typeof event.detail !== 'object') return
-    this._updateMovieClipInstances(event.detail)
+  data (data) {
+    this._updateMovieClipInstances(data)
   }
 
   _findLabel (label) {
