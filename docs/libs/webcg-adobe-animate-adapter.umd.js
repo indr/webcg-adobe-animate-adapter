@@ -14,7 +14,7 @@
 	(function (global, factory) {
 	  factory();
 	}(commonjsGlobal, (function () {
-	  var version = "1.2.2";
+	  var version = "2.2.1";
 
 	  var Parser = (function () {
 	    function Parser () {}
@@ -63,13 +63,20 @@
 	    return Parser;
 	  }());
 
-	  var WebCG = function WebCG (window) {
-	    this._listeners = {};
+	  var FUNCTIONS = ['play', 'stop', 'next', 'update'];
 
-	    window.play = this.play.bind(this);
-	    window.stop = this.stop.bind(this);
-	    window.next = this.next.bind(this);
-	    window.update = this.update.bind(this);
+	  var State = Object.freeze({ 'stopped': 0, 'playing': 1 });
+
+	  var WebCG = function WebCG (window) {
+	    var this$1 = this;
+
+	    this._listeners = {};
+	    this._window = window;
+	    FUNCTIONS.forEach(function (each) {
+	      this$1._window[each] = this$1[each].bind(this$1);
+	      this$1._window[each].webcg = true;
+	    });
+	    this._state = State.stopped;
 
 	    // Aliases
 	    this.on = this.addEventListener;
@@ -80,6 +87,7 @@
 	    if (typeof listener !== 'function') { throw new TypeError('listener must be a function') }
 	    var listeners = this._listeners[type] = this._listeners[type] || [];
 	    listeners.push(listener);
+	    this._addWindowFunction(type);
 	  };
 
 	  WebCG.prototype.removeEventListener = function removeEventListener (type, listener) {
@@ -88,25 +96,48 @@
 	    if (idx >= 0) {
 	      listeners.splice(idx, 1);
 	    }
+
+	    if (listeners.length === 0) {
+	      this._removeWindowFunction(type);
+	    }
+	  };
+
+	  WebCG.prototype._addWindowFunction = function _addWindowFunction (name) {
+	    if (typeof this._window[name] === 'function' && this._window[name].webcg) { return }
+
+	    this._window[name] = this.dispatch.bind(this, name);
+	    this._window[name].webcg = true;
+	  };
+
+	  WebCG.prototype._removeWindowFunction = function _removeWindowFunction (name) {
+	    if (FUNCTIONS.indexOf(name) >= 0) { return }
+	    if (typeof this._window[name] !== 'function' || !this._window[name].webcg) { return }
+	    delete this._window[name];
 	  };
 
 	  WebCG.prototype.play = function play () {
-	    this._dispatch('play');
+	    if (this._state !== State.playing) {
+	      this.dispatch('play');
+	      this._state = State.playing;
+	    }
 	  };
 
 	  WebCG.prototype.stop = function stop () {
-	    this._dispatch('stop');
+	    if (this._state === State.playing) {
+	      this.dispatch('stop');
+	      this._state = State.stopped;
+	    }
 	  };
 
 	  WebCG.prototype.next = function next () {
-	    this._dispatch('next');
+	    this.dispatch('next');
 	  };
 
 	  WebCG.prototype.update = function update (data) {
-	    var event = this._dispatch('update', { detail: data });
-	    if (!event.defaultPrevented) {
+	    var handled = this.dispatch('update', data);
+	    if (!handled) {
 	      var parsed = new Parser().parse(data);
-	      this._dispatch('data', { detail: parsed });
+	      this.dispatch('data', parsed);
 	    }
 	  };
 
@@ -115,18 +146,19 @@
 	    return this._listeners[type]
 	  };
 
-	  WebCG.prototype._dispatch = function _dispatch (type, customEventInit) {
-	    var event = new window.CustomEvent(type, Object.assign({}, {
-	      cancelable: true
-	    }, customEventInit));
+	  WebCG.prototype.dispatch = function dispatch (type, arg) {
+	      var arguments$1 = arguments;
+
+	    Array.prototype.slice.call(arguments, 1);
 	    var listeners = this._getListeners(type);
-	    for (var i = listeners.length - 1; i >= 0; i--) {
+	    var handled = false;
+	    for (var i = listeners.length - 1; i >= 0 && handled === false; i--) {
 	      var listener = listeners[i];
 	      if (typeof listener === 'function') {
-	        listener(event);
+	        handled = !!listener.apply(null, Array.prototype.slice.call(arguments$1, 1));
 	      }
 	    }
-	    return event
+	    return handled
 	  };
 
 	  var initWebCg = function (window) {
@@ -168,7 +200,7 @@
 	})));
 	});
 
-	var version = "1.2.2";
+	var version = "1.2.3";
 
 	var Adapter = (function () {
 	  function Adapter (webcg, movieClip) {
@@ -211,10 +243,8 @@
 	    this.movieClip.play();
 	  };
 
-	  Adapter.prototype.data = function data (event) {
-	    if (event.defaultPrevented) { return }
-	    if (typeof event.detail !== 'object') { return }
-	    this._updateMovieClipInstances(event.detail);
+	  Adapter.prototype.data = function data (data$1) {
+	    this._updateMovieClipInstances(data$1);
 	  };
 
 	  Adapter.prototype._findLabel = function _findLabel (label) {
