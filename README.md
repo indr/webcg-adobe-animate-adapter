@@ -1,6 +1,8 @@
 # webcg-adobe-animate-adapter
 
-webcg-adobe-animate-adapter is an adapter to use Adobe Animate HTML5 Canvas templates (graphic overlays) with CasparCG. The adapter provides the same features as the TemplateHost of the CasparCG's flash producer, plus additional development and debug tools that make it easy to test your templates without a CasparCG instance.
+webcg-adobe-animate-adapter is an adapter to use Adobe Animate HTML5 Canvas templates (graphic overlays) with CasparCG. The adapter provides the same features as the TemplateHost of the CasparCG's flash producer, plus additional development and debug tools that make it easy to test your templates without a CasparCG instance. Have a look at the [live example lower third template](https://indr.github.io/webcg-adobe-animate-adapter) and its [source code](https://github.com/indr/webcg-adobe-animate-adapter/tree/master/docs).
+
+## Features
 
 - Support of ACMP commands `play`, `next`, `stop`, `update` and `invoke`.
 - Support of "intro" and "outro" labels.
