@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.2.4"></a>
+## [1.2.4](https://github.com/indr/webcg-adobe-animate-adapter/compare/v1.2.3...v1.2.4) (2019-01-24)
+
+
+### Bug Fixes
+
+* update DisplayObject instances (MovieClip, Text, etc) recursively ([d16782e](https://github.com/indr/webcg-adobe-animate-adapter/commit/d16782e))
+
+
+
 <a name="1.2.3"></a>
 ## [1.2.3](https://github.com/indr/webcg-adobe-animate-adapter/compare/v1.2.2...v1.2.3) (2018-12-14)
 

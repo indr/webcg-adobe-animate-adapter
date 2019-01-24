@@ -1,8 +1,7 @@
-(function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory() :
+(function (factory) {
 	typeof define === 'function' && define.amd ? define(factory) :
-	(factory());
-}(this, (function () { 'use strict';
+	factory();
+}(function () { 'use strict';
 
 	var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -200,14 +199,16 @@
 	})));
 	});
 
-	var version = "1.2.3";
+	var version = "1.2.4";
 
-	var Adapter = (function () {
-	  function Adapter (webcg, movieClip) {
+	var Adapter = /*@__PURE__*/(function () {
+	  function Adapter (webcg, movieClip, createjs) {
 	    if (!webcg || typeof webcg !== 'object') { throw new TypeError('webcg must be an object') }
 	    if (!movieClip || typeof movieClip !== 'object') { throw new TypeError('movieClip must be an object') }
+	    if (!createjs || typeof createjs !== 'object') { throw new TypeError('createjs must be an object') }
 
 	    this.movieClip = movieClip;
+	    this.createjs = createjs;
 
 	    // Immediately call stop since CasparCG will invoke play
 	    // to start the template
@@ -244,7 +245,7 @@
 	  };
 
 	  Adapter.prototype.data = function data (data$1) {
-	    this._updateMovieClipInstances(data$1);
+	    this._updateInstances(data$1);
 	  };
 
 	  Adapter.prototype._findLabel = function _findLabel (label) {
@@ -255,20 +256,51 @@
 	    return null
 	  };
 
-	  Adapter.prototype._updateMovieClipInstances = function _updateMovieClipInstances (data) {
-	    var instance = this.movieClip.instance;
-	    Object.keys(data).forEach(function (componentId) {
-	      if (!instance.hasOwnProperty(componentId)) { return }
+	  Adapter.prototype._updateInstances = function _updateInstances (data) {
+	    var this$1 = this;
 
-	      if (typeof data[componentId] === 'object') {
-	        Object.keys(data[componentId]).forEach(function (dataKey) {
-	          if (!instance[componentId].hasOwnProperty(dataKey)) { return }
-	          instance[componentId][dataKey] = data[componentId][dataKey];
+	    var instances = this._getDisplayObjectInstances(this.movieClip);
+	    Object.keys(data).forEach(function (componentId) {
+	      // Skip if there are not instanes with current id
+	      if ((instances[componentId] || []).length <= 0) { return }
+
+	      // If the current value is a string, update given text property
+	      if (typeof data[componentId] === 'string' || typeof data[componentId] === 'number') {
+	        instances[componentId].forEach(function (instance) {
+	          this$1._updateInstanceProps(instance, { text: data[componentId] });
 	        });
-	      } else if (typeof data[componentId] === 'string') {
-	        if (!instance[componentId].hasOwnProperty('text')) { return }
-	        instance[componentId]['text'] = data[componentId];
+	      } else if (typeof data[componentId] === 'object') {
+	        instances[componentId].forEach(function (instance) {
+	          this$1._updateInstanceProps(instance, data[componentId]);
+	        });
 	      }
+	    });
+	  };
+
+	  Adapter.prototype._getDisplayObjectInstances = function _getDisplayObjectInstances (instance, result) {
+	    var this$1 = this;
+
+	    return Object.keys(instance).reduce(function (map, curr) {
+	      // Ignore parent property to prevent infinite recursion
+	      if (curr === 'parent') { return map }
+	      // Ignore inherited properties
+	      if (!instance.hasOwnProperty(curr)) { return map }
+
+	      if (instance[curr] instanceof this$1.createjs.DisplayObject) {
+	        // Add instance to the result map
+	        map[curr] = map[curr] || [];
+	        map[curr].push(instance[curr]);
+	        // Recurse over the properties
+	        return this$1._getDisplayObjectInstances(instance[curr], map)
+	      }
+	      return map
+	    }, result || {})
+	  };
+
+	  Adapter.prototype._updateInstanceProps = function _updateInstanceProps (instance, props) {
+	    Object.keys(props).forEach(function (key) {
+	      if (!instance.hasOwnProperty(key)) { return }
+	      instance[key] = props[key];
 	    });
 	  };
 
@@ -284,9 +316,13 @@
 	    console.warn('[webcg-adobe-animate-adapter] expected window.AdobeAn to be an object');
 	    return
 	  }
+	  if (typeof window.createjs !== 'object') {
+	    console.warn('[webcg-adobe-animate-adapter] expected window.createjs to be an object');
+	    return
+	  }
 	  window.AdobeAn.bootstrapCallback(function () {
 	    /* eslint-disable no-new */
-	    new Adapter(window.webcg, window.exportRoot);
+	    new Adapter(window.webcg, window.exportRoot, window.createjs);
 	  });
 	};
 
@@ -309,4 +345,4 @@
 	  }
 	}
 
-})));
+}));
