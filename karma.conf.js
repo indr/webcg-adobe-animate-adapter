@@ -1,10 +1,9 @@
 module.exports = function (config) {
   config.set({
-    browsers: ['PhantomJS'],
-    frameworks: ['mocha', 'sinon-chai', 'phantomjs-shim'],
+    browsers: ['ChromeHeadless'],
+    frameworks: ['mocha', 'sinon-chai'],
     reporters: ['spec', 'coverage'],
     files: [
-      'src/Polyfills.js',
       /**
        * Make sure to disable Karma’s file watcher
        * because the preprocessor will use its own.
