@@ -12,7 +12,7 @@ module.exports = function (config) {
       { pattern: 'test/**/*.spec.js', watched: false }
     ],
     preprocessors: {
-      'test/**/*.spec.js': ['rollup', 'sourcemap', 'coverage']
+      'test/**/*.spec.js': ['rollup', 'coverage']
     },
     rollupPreprocessor: {
       /**
