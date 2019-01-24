@@ -9,9 +9,13 @@ const init = function (window) {
     console.warn('[webcg-adobe-animate-adapter] expected window.AdobeAn to be an object')
     return
   }
+  if (typeof window.createjs !== 'object') {
+    console.warn('[webcg-adobe-animate-adapter] expected window.createjs to be an object')
+    return
+  }
   window.AdobeAn.bootstrapCallback(() => {
     /* eslint-disable no-new */
-    new Adapter(window.webcg, window.exportRoot)
+    new Adapter(window.webcg, window.exportRoot, window.createjs)
   })
 }
 

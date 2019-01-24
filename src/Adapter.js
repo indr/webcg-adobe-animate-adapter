@@ -1,9 +1,11 @@
 const Adapter = class {
-  constructor (webcg, movieClip) {
+  constructor (webcg, movieClip, createjs) {
     if (!webcg || typeof webcg !== 'object') throw new TypeError('webcg must be an object')
     if (!movieClip || typeof movieClip !== 'object') throw new TypeError('movieClip must be an object')
+    if (!createjs || typeof createjs !== 'object') throw new TypeError('createjs must be an object')
 
     this.movieClip = movieClip
+    this.createjs = createjs
 
     // Immediately call stop since CasparCG will invoke play
     // to start the template
@@ -40,7 +42,7 @@ const Adapter = class {
   }
 
   data (data) {
-    this._updateMovieClipInstances(data)
+    this._updateInstances(data)
   }
 
   _findLabel (label) {
@@ -51,20 +53,47 @@ const Adapter = class {
     return null
   }
 
-  _updateMovieClipInstances (data) {
-    const instance = this.movieClip.instance
+  _updateInstances (data) {
+    const instances = this._getDisplayObjectInstances(this.movieClip)
     Object.keys(data).forEach(componentId => {
-      if (!instance.hasOwnProperty(componentId)) return
+      // Skip if there are not instanes with current id
+      if ((instances[componentId] || []).length <= 0) return
 
-      if (typeof data[componentId] === 'object') {
-        Object.keys(data[componentId]).forEach(dataKey => {
-          if (!instance[componentId].hasOwnProperty(dataKey)) return
-          instance[componentId][dataKey] = data[componentId][dataKey]
+      // If the current value is a string, update given text property
+      if (typeof data[componentId] === 'string' || typeof data[componentId] === 'number') {
+        instances[componentId].forEach(instance => {
+          this._updateInstanceProps(instance, { text: data[componentId] })
         })
-      } else if (typeof data[componentId] === 'string') {
-        if (!instance[componentId].hasOwnProperty('text')) return
-        instance[componentId]['text'] = data[componentId]
+      } else if (typeof data[componentId] === 'object') {
+        instances[componentId].forEach(instance => {
+          this._updateInstanceProps(instance, data[componentId])
+        })
       }
+    })
+  }
+
+  _getDisplayObjectInstances (instance, result) {
+    return Object.keys(instance).reduce((map, curr) => {
+      // Ignore parent property to prevent infinite recursion
+      if (curr === 'parent') return map
+      // Ignore inherited properties
+      if (!instance.hasOwnProperty(curr)) return map
+
+      if (instance[curr] instanceof this.createjs.DisplayObject) {
+        // Add instance to the result map
+        map[curr] = map[curr] || []
+        map[curr].push(instance[curr])
+        // Recurse over the properties
+        return this._getDisplayObjectInstances(instance[curr], map)
+      }
+      return map
+    }, result || {})
+  }
+
+  _updateInstanceProps (instance, props) {
+    Object.keys(props).forEach(key => {
+      if (!instance.hasOwnProperty(key)) return
+      instance[key] = props[key]
     })
   }
 }
