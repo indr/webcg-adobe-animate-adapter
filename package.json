@@ -1,6 +1,6 @@
 {
   "name": "webcg-adobe-animate-adapter",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "Adapter for Adobe Animate HTML5 Canvas graphic overlays for WebCG and CasparCG",
   "browser": "dist/webcg-adobe-animate-adapter.umd.js",
   "scripts": {
