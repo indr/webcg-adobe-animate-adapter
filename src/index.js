@@ -6,7 +6,7 @@ import init from './main'
  * When required globally
  */
 if (typeof window !== 'undefined') {
-  console.log('[webcg-adobe-animate-adapter] version %s', version)
+  console.log('[webcg-adobe-animate-adapter] version ' + version)
   ready(() => {
     init(window)
   })
