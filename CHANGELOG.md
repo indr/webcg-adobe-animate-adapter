@@ -8,7 +8,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Docs
 
-* update example-lower-third ([2513dd3](https://github.com/indr/webcg-adobe-animate-adapter/commit/2513dd3))
+* update example-lower-third template ([2513dd3](https://github.com/indr/webcg-adobe-animate-adapter/commit/2513dd3))
 
 
 
