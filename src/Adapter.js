@@ -42,6 +42,7 @@ const Adapter = class {
   }
 
   data (data) {
+    if (!data || typeof data !== 'object') return
     this._updateInstances(data)
   }
 

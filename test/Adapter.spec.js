@@ -104,6 +104,12 @@ describe('Adapter', () => {
     expect(movieClip.visible).to.equal(true)
   })
 
+  it('data without argument or null must not throw exception', () => {
+    const adapter = new Adapter(webcg, movieClip, createjs)
+    adapter.data()
+    adapter.data(null)
+  })
+
   it('data with string data should update createjs Text instances', () => {
     movieClip.f0 = new createjs.Text('f0')
     movieClip.f0.parent = movieClip
@@ -123,7 +129,7 @@ describe('Adapter', () => {
     expect(movieClip.instance.f1.text).to.equal(1)
   })
 
-  it('data should update createjs MovieClip instances', () => {
+  it('data with object data should update createjs MovieClip instances', () => {
     movieClip.f0 = new createjs.Text('f0')
     movieClip.f0.parent = movieClip
     movieClip.instance = new createjs.MovieClip()
