@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.2.5"></a>
+## [1.2.5](https://github.com/indr/webcg-adobe-animate-adapter/compare/v1.2.4...v1.2.5) (2019-01-25)
+
+
+### Bug Fixes
+
+* buffer commands until template is bootstrapped ([c3c7714](https://github.com/indr/webcg-adobe-animate-adapter/commit/c3c7714))
+* remove substitution strings from console.log ([77572c0](https://github.com/indr/webcg-adobe-animate-adapter/commit/77572c0))
+* update with empty string throws exception ([04f1664](https://github.com/indr/webcg-adobe-animate-adapter/commit/04f1664))
+
+
+
 <a name="1.2.4"></a>
 ## [1.2.4](https://github.com/indr/webcg-adobe-animate-adapter/compare/v1.2.3...v1.2.4) (2019-01-24)
 
