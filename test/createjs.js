@@ -5,6 +5,7 @@ class DisplayObject {
 }
 
 class MovieClip extends DisplayObject {
+  stop () {}
 }
 
 class Text extends DisplayObject {
