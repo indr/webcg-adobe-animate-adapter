@@ -62,26 +62,29 @@ if (loop == null) { loop = false; }	this.initialize(mode,startPosition,loop,{int
 
 	// timeline functions:
 	this.frame_0 = function() {
-		console.log('Actions Frame 1', this);
+		console.log('Actions : Frame 1');
 		
-		// Listen to the update event and log the raw data
-		webcg.on('update', function (raw) {
-			console.log('on update, raw:', raw);
-			console.log('raw is a string:', typeof raw === 'string');
-			
-			// If you don't want webcg to automatically parse the raw data and trigger
-			// the data event, return true (for handled) here:
-			// return true;
-		});
+		// Keep in mind that actions defined on a frame are executed every time that frame is
+		// about the be rendered. Have a look at the actions on the other layers.
 		
-		// Listen to the data event and log the JavaScript object
-		webcg.on('data', function (data) {
-			console.log('on data, object:', data);
-			console.log('data is an object:', typeof data === 'object');
-		});
+		// Instead of spreading code on several layers, you could keep an Actions layer and keep
+		// all the code here. What you can do is to keep a first frame played only once for example
+		// to listen to webcg.on('data', function (data) { }); to update your instances.
+		
+		// Oh. Have I told you to publish this template and open it in your browser
+		// with ?debug=true attached at the end? You will see a nice little interface to
+		// test this template. Don't forget to open the browsers console to see all the logs.
+		
+		// Oh. Also have a look at the Script under Global...
 		console.log('Date time : Frame 1');
 		
-		// Keep a reference to the current MovieClip instance so we don't have to bind our functions explicitly
+		// The code here updates the dynamic text field in the top left corner. Everytime an
+		// update, play, next or stop command is triggered, the text field is updated
+		// with the current time and the commands name.
+		
+		// Keep a reference to the current MovieClip instance so
+		// we don't have to bind our functions explicitly. This is some advanced JavaScript thing
+		// that you don't really need to know. Just don't mess with the `this` variable.
 		const that = this;
 		
 		// Define a function that takes one argument which will be appended to the current time
@@ -90,7 +93,7 @@ if (loop == null) { loop = false; }	this.initialize(mode,startPosition,loop,{int
 			that.dateTime.text = [new Date().toLocaleTimeString(), text].join(' - ');
 		}
 		
-		// Call the function
+		// Call the function to set an initial value
 		updateDateTime('hello');
 		
 		// Listen to update event and call updateDateTime
@@ -114,39 +117,51 @@ if (loop == null) { loop = false; }	this.initialize(mode,startPosition,loop,{int
 		});
 		console.log('Lower third : Frame 1');
 		
-		// Keep a reference to the current MovieClip instance so we don't have to bind our functions explicitly
-		// the const that is already defined in "Date time : Frame 1". Adobe Animate just tosses
-		// the frame scripts together.
+		// Keep a reference to the current MovieClip instance so we don't have to bind our functions
+		// explicitly the const that is already defined in "Date time : Frame 1". Adobe Animate
+		// just tosses the frame scripts together.
 		// const that = this;
 		
 		// Listen to the play event and log the this and that reference
 		webcg.on('play', function () {
+			// You will see in the browsers console that this and that is not the same thing!
 			console.log('this', this);
 			console.log('that', that);
 			// this and that is not the same, because this anonymous function is not bound to 
 			// the MovieClip instance
-			console.log('this === that', this === that);
+			console.log('this === that? ' + (this === that));
 		});
 		
 		// Listen to the data event and update the subtitle
 		webcg.on('data', function (data) {
-			console.log('got data, update subtitle with', data.subtitle);
-			console.log('that', that);
+			console.log('got data, updating subtitle with', data.subtitle);	
 			that.lowerThird.subtitle.text = data.f1;
 			
-			// If you don't want webcg to automatically update instance fields such as text, color etc,
-			// return true (for handled) here:
+			// The adapter has a nice feature which automatically updates instance fields. Since
+			// the title text fields' instance name is f0, the text property is automatically
+			// updated. If you don't want webcg to automatically update instance fields such as text,
+			// color etc, return true (for handled) here:
 			// return true;
 		});
 	}
 	this.frame_1 = function() {
 		console.debug('Labels : Frame 2, (intro)');
+		
+		// Somewhere along the way I have noticed it's a good practice to have a separate layer
+		// to keep your labels. The labels "intro" and "outro" are automatically played when you play
+		// or stop your template (from CasparCG client via ACMP for example).
 	}
 	this.frame_10 = function() {
 		console.log('Lower third : Frame 11');
 		
-		// Call stop() on the current MovieClip to stop at the current frame
+		// Call this.stop() on the current MovieClip to stop after the outro animation
+		// at the current frame.
 		this.stop();
+		
+		// If instead you want to trigger the outro animation somewhere else in your template, you
+		// have to tell the webcg-adobe-animate-adapter to stop so the adapter can update its internal
+		// state and find the outro label and play it.
+		// webcg.stop();
 	}
 	this.frame_20 = function() {
 		console.log('Labels : Frame 21, (outro)');
