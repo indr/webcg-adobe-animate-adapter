@@ -195,11 +195,11 @@ if (loop == null) { loop = false; }	this.initialize(mode,startPosition,loop,{int
 	this.timeline.addTween(cjs.Tween.get(this.lowerThird).wait(1).to({_off:false},0).to({y:632.5},9).wait(10).to({alpha:0},10).wait(1));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(569.1,390,491.9,438.29999999999995);
+p.nominalBounds = new cjs.Rectangle(669.1,390,391.9,438.29999999999995);
 // library properties:
 lib.properties = {
 	id: '86FF306FC3E56E4C87286BC5940DBF61',
-	width: 1080,
+	width: 1280,
 	height: 720,
 	fps: 24,
 	color: "#000000",
