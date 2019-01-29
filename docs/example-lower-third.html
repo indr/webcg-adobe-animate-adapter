@@ -29,16 +29,21 @@ window.debugData = { f0: 'Example lower third', subtitle: 'with subtitle' }
 // to the templates root MovieClip instance in window.exportRoot.
 // For example, you can listen to the data event
 webcg.on('data', function (data) {
-	// data is a JavaScript object that contains the data that was passed with CG UPDATE.
-	console.log('on data, object:', data);
-	console.log('data is an object? ', typeof data === 'object');
+	// data is a JavaScript object that contains the data that was passed via CG PLAY or CG UPDATE.
+	console.log('on data, object: ' + JSON.stringify(data));
+	console.log('data is an object: ' + (typeof data === 'object')); // true
+	// If data is sent as template data XML format, f1 is an object with a property text.
+	// If data is sent as JSON object, f1 is a string.
+	var subtitle = (data.f1.text || data.f1 || '');
 	// You can use this data to update instances on your template:
-	exportRoot.lowerThird.subtitle.text = data.f1 + ' (Global Script)';
+	console.log('updating subtitle with: ' + subtitle);
+	exportRoot.lowerThird.subtitle.text = subtitle;
 });
-// You can listen to the update event and log the raw data
+// You can listen to the update event
 webcg.on('update', function (raw) {
-	console.log('on update, raw:', raw);
-	console.log('raw is a string:', typeof raw === 'string');
+	// raw is a JavaScript string that contains the raw data that was passed via CG PLAY or CG UPDATE
+	console.log('on update, raw: ' + raw);
+	console.log('raw is a string: ' + (typeof raw === 'string')); // true
 	// If you don't want webcg to automatically parse the raw data and trigger
 	// the data event, return true (for handled) here:
 	// return true;

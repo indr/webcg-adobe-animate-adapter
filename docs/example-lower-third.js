@@ -129,17 +129,22 @@ if (loop == null) { loop = false; }	this.initialize(mode,startPosition,loop,{int
 			console.log('that', that);
 			// this and that is not the same, because this anonymous function is not bound to 
 			// the MovieClip instance
-			console.log('this === that? ' + (this === that));
+			console.log('this === that: ' + (this === that));
 		});
 		
-		// Listen to the data event and update the subtitle
+		// Listen to the data event and update title (f0)
 		webcg.on('data', function (data) {
-			console.log('got data, updating subtitle with', data.subtitle);	
-			that.lowerThird.subtitle.text = data.f1;
+			// If data is sent as template data XML format, f0 is an object with a property text.
+			// If data is sent as JSON object, f0 is a string.
+			var title = (data.f0.text || data.f0 || '');
+			console.log('on data, updating title with: ' + title);
 			
 			// The adapter has a nice feature which automatically updates instance fields. Since
 			// the title text fields' instance name is f0, the text property is automatically
-			// updated. If you don't want webcg to automatically update instance fields such as text,
+			// updated. So even if you comment the next line, the title (f0) instance is still updated.
+			// that.lowerThird.f0.text = title;
+			
+			// If you don't want webcg to automatically update instance fields such as text,
 			// color etc, return true (for handled) here:
 			// return true;
 		});
