@@ -17,7 +17,7 @@ class Text extends DisplayObject {
   }
 }
 
-window.createjs = {
+export default window.createjs = {
   DisplayObject,
   MovieClip,
   Text

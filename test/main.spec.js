@@ -1,5 +1,5 @@
 import init from '../src/main.js'
-import createjs from 'createjs.js'
+import createjs from './createjs.js'
 
 describe('init', () => {
   let window, AdobeAn, webcg
