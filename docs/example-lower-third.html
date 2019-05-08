@@ -17,16 +17,16 @@
 <script src="libs/createjs-2015.11.26.min.js"></script>
 <script src="example-lower-third.js"></script>
 <script>
-// Global Scripts
-	// Set window.debugData which is picked up by webcg-devtools to populate the data table
+// Global Script
+// Set window.debugData which is picked up by webcg-devtools to populate the data table
 // to test the template with ?debug=true. This is optional and can safely be removed.
-window.debugData = { f0: 'Example lower third', subtitle: 'with subtitle' }
+window.debugData = { f0: 'Example lower third', f1: 'with subtitle' }
 // This Global Script file does not have access to any MovieClip instance. The script here
 // is executed before CreateJS (Adobe Animate) has loaded the template. But what you can do is
 // register to events from webcg-framework. Even though these events may happen before the
 // template is ready, the webcg-adobe-animate-adapter buffers them and waits for the template
 // to be bootstrapped (loaded). Therefor, within the event handlers, you have full access
-// to the templates root MovieClip instance in window.exportRoot.
+// to the templates root MovieClip instance (the scene) in window.exportRoot.
 // For example, you can listen to the data event
 webcg.on('data', function (data) {
 	// data is a JavaScript object that contains the data that was passed via CG PLAY or CG UPDATE.
@@ -34,7 +34,7 @@ webcg.on('data', function (data) {
 	console.log('data is an object: ' + (typeof data === 'object')); // true
 	// If data is sent as template data XML format, f1 is an object with a property text.
 	// If data is sent as JSON object, f1 is a string.
-	var subtitle = (data.f1.text || data.f1 || '');
+	var subtitle = data.f1 ? data.f1.text || data.f1 || '' : '';
 	// You can use this data to update instances on your template:
 	console.log('updating subtitle with: ' + subtitle);
 	exportRoot.lowerThird.subtitle.text = subtitle;
