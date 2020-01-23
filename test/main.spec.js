@@ -19,19 +19,19 @@ describe('init', () => {
   })
 
   it('should not register bootstrapCallback when window.webcg is not defined', () => {
-    delete window['AdobeAn']
+    delete window.AdobeAn
     init(window)
     expect(AdobeAn.bootstrapCallback.called).to.equal(false)
   })
 
   it('should not register bootstrapCallback when window.AdobeAn is not defined', () => {
-    delete window['AdobeAn']
+    delete window.AdobeAn
     init(window)
     expect(AdobeAn.bootstrapCallback.called).to.equal(false)
   })
 
   it('should not register bootstrapCallback when window.createjs is not defined', () => {
-    delete window['createjs']
+    delete window.createjs
     init(window)
     expect(AdobeAn.bootstrapCallback.called).to.equal(false)
   })

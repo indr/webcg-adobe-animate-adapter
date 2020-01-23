@@ -78,7 +78,7 @@ const Adapter = class {
       // Ignore parent property to prevent infinite recursion
       if (curr === 'parent') return map
       // Ignore inherited properties
-      if (!instance.hasOwnProperty(curr)) return map
+      if (!Object.prototype.hasOwnProperty.call(instance, curr)) return map
 
       if (instance[curr] instanceof this.createjs.DisplayObject) {
         // Add instance to the result map
@@ -93,7 +93,7 @@ const Adapter = class {
 
   _updateInstanceProps (instance, props) {
     Object.keys(props).forEach(key => {
-      if (!instance.hasOwnProperty(key)) return
+      if (!Object.prototype.hasOwnProperty.call(instance, key)) return
       instance[key] = props[key]
     })
   }
