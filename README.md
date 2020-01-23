@@ -5,9 +5,10 @@ webcg-adobe-animate-adapter is an adapter to use Adobe Animate HTML5 Canvas temp
 ## Features
 
 - Support of ACMP commands `play`, `next`, `stop`, `update` and `invoke`.
-- Support of "intro" and "outro" labels.
-- Support of three data formats: plain JavaScript object, JSON and the templateData XML format.
+- Support of "intro" and "outro" labels for playing and stopping.
+- Support of jumping to labels using ACMP `invoke`.
 - Automatic update of template instances according to the provided data via `update`.
+- Three data formats: plain JavaScript object, JSON and the templateData XML format.
 - The adapter comes with lazy-loaded [development tools](https://github.com/indr/webcg-devtools) that provide a user interface to edit the template data and invoke the above commands.
 
 ## Installation

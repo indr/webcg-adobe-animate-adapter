@@ -58,7 +58,7 @@ if (loop == null) { loop = false; }	this.initialize(mode,startPosition,loop,{});
 
 // stage content:
 (lib.examplelowerthird = function(mode,startPosition,loop) {
-if (loop == null) { loop = false; }	this.initialize(mode,startPosition,loop,{intro:1,outro:20});
+if (loop == null) { loop = false; }	this.initialize(mode,startPosition,loop,{intro:1,label1:10,outro:20});
 
 	// timeline functions:
 	this.frame_0 = function() {

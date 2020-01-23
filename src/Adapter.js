@@ -15,6 +15,14 @@ const Adapter = class {
     webcg.addEventListener('stop', this.stop.bind(this))
     webcg.addEventListener('next', this.next.bind(this))
     webcg.addEventListener('data', this.data.bind(this))
+
+    if (this.movieClip) {
+      const labels = this.movieClip.getLabels().filter(label => ['play', 'stop', 'next', 'update', 'data'].indexOf(label.label) === -1)
+      for (let i = 0; i < labels.length; i++) {
+        const labelName = labels[i].label
+        webcg.addEventListener(labelName, this._gotoAndPlay.bind(this, labelName))
+      }
+    }
   }
 
   play () {
@@ -52,6 +60,15 @@ const Adapter = class {
       if (labels[i].label === label) return labels[i]
     }
     return null
+  }
+
+  _gotoAndPlay (labelName) {
+    const label = this._findLabel(labelName)
+    if (label) {
+      this.movieClip.gotoAndPlay(label.position)
+    } else {
+      console.warn('[webcg-adobe-animate-adapter] label "%s" not found', labelName)
+    }
   }
 
   _updateInstances (data) {

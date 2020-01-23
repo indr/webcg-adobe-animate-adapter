@@ -5,6 +5,10 @@ class DisplayObject {
 }
 
 class MovieClip extends DisplayObject {
+  getLabels () {
+    return []
+  }
+
   stop () {}
 }
 
