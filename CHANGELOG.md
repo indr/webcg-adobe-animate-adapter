@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/indr/webcg-adobe-animate-adapter/compare/v1.2.6...v1.3.0) (2020-01-23)
+
+
+### Features
+
+* support of jumping to labels using ACMP invoke ([a0c82ae](https://github.com/indr/webcg-adobe-animate-adapter/commit/a0c82ae1562740c2eefb7d66b50413fd5d09d262))
+
 <a name="1.2.6"></a>
 ## [1.2.6](https://github.com/indr/webcg-adobe-animate-adapter/compare/v1.2.5...v1.2.6) (2019-01-25)
 
